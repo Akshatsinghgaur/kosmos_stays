@@ -74,7 +74,7 @@ function App() {
       {page === 'bookings' && <BookingsPage bookings={bookings} onNew={() => setPage('new')} onCheckout={async id => { try { await api.post(`/bookings/${id}/checkout`); setNotice('Checkout recorded. Unit marked for cleaning.'); refresh(); } catch (e) { setNotice(e.response?.data?.message || 'Could not record checkout.'); } }} />}
       {page === 'new' && <NewBooking units={units} onCancel={() => setPage('bookings')} onDone={() => { setPage('bookings'); setNotice('Booking added successfully.'); refresh(); }} />}
       {page === 'units' && <UnitsPage units={units} refresh={refresh} />}
-      {page === 'stats' && <StatsPage />}
+      {page === 'stats' && <StatsPage bookings={bookings} units={units} />}
       {page === 'profile' && <ProfilePage user={user} units={units} onUser={next => { setUser(next); localStorage.setItem('ks_user', JSON.stringify(next)); }} onPage={setPage} />}
       {page === 'cleaner' && <CleanerSetup user={user} onNotice={setNotice} />}
       {page === 'admin' && user.role === 'admin' && <AdminPanel onNotice={setNotice} />} 
@@ -140,6 +140,77 @@ function UnitsPage({ units, refresh }) {
  async function clean(u){try{await api.post(`/units/${u._id}/clean`);setErr(`${u.unitCode} marked clean and available.`);refresh()}catch(e){setErr(e.response?.data?.message||'Could not mark unit clean')}}
  return <><div className="page-heading"><div><p className="eyebrow">YOUR SPACE</p><h1>Units</h1><p className="muted">Each active unit costs ₹299 for 28 days.</p></div></div><section className="section-card"><h2>Add a unit</h2><div className="add-unit-row"><input placeholder="Unit number, e.g. 620A" value={code} onChange={e=>setCode(e.target.value)} onKeyDown={e=>e.key==='Enter'&&(e.preventDefault(),add())}/><button className="primary-button" onClick={add}>Add unit</button></div>{err&&<p className="form-error">{err}</p>}<div className="unit-list">{units.map(u=><div className="unit-row unit-row-wrap" key={u._id}><span className="unit-icon">⌂</span><div><b>{u.unitCode}</b><small>{u.status==='occupied'?'Guest checked in':u.status==='cleaning'?'Needs cleaning':'Available'} · {u.subscriptionStatus==='active'&&u.subscriptionExpiresAt?`Subscription until ${new Date(u.subscriptionExpiresAt).toLocaleDateString('en-IN')}`:'Subscription pending'}</small><div className="unit-actions">{u.status==='cleaning'&&<button className="secondary-button compact" onClick={()=>clean(u)}>Mark unit clean</button>}<button className="danger-button" onClick={()=>{setDeleteTarget(u);setConfirmCode('')}}>Remove unit</button></div></div><span className={`unit-status ${u.status}`}>{u.status==='occupied'?'Occupied':u.status==='cleaning'?'Cleaning':'Available'}</span></div>)}</div>{!units.length&&<Empty title="No units yet" text="Add your first unit above. Subscription activation is managed by Kosmos Stays."/>}</section>{deleteTarget&&<div className="modal-backdrop"><div className="modal-card"><h2>Remove {deleteTarget.unitCode}?</h2><p className="muted">Type the exact unit number to confirm. Old booking history is preserved. Units with an active stay or cleaning task cannot be removed.</p><label>Unit number<input value={confirmCode} onChange={e=>setConfirmCode(e.target.value)} placeholder={deleteTarget.unitCode}/></label><div className="form-actions"><button className="secondary-button" onClick={()=>setDeleteTarget(null)}>Cancel</button><button className="danger-button" disabled={busy||confirmCode.trim().toUpperCase()!==deleteTarget.unitCode} onClick={remove}>{busy?'Removing…':'Confirm removal'}</button></div></div></div>}</>;
 }
+
+function StatsPage({ bookings = [], units = [] }) {
+  const [period, setPeriod] = useState('month');
+
+  const now = new Date();
+  const start = new Date(now);
+
+  if (period === 'week') {
+    start.setDate(now.getDate() - 6);
+  } else {
+    start.setDate(1);
+    start.setHours(0, 0, 0, 0);
+  }
+
+  const filtered = bookings.filter(b => {
+    const date = new Date(b.checkIn);
+    return date >= start && date <= now && b.status !== 'cancelled';
+  });
+
+  const revenue = filtered.reduce(
+    (sum, b) => sum + Number(b.amount || 0), 0
+  );
+
+  const checkedOut = filtered.filter(
+    b => b.status === 'checked_out'
+  ).length;
+
+  return (
+    <>
+      <div className="page-heading">
+        <div>
+          <p className="eyebrow">YOUR PERFORMANCE</p>
+          <h1>Statistics</h1>
+          <p className="muted">Your booking register at a glance.</p>
+        </div>
+      </div>
+
+      <section className="section-card">
+        <div className="filter-pills">
+          <button
+            className={period === 'week' ? 'filter-pill active-filter' : 'filter-pill'}
+            onClick={() => setPeriod('week')}
+          >
+            Last 7 days
+          </button>
+          <button
+            className={period === 'month' ? 'filter-pill active-filter' : 'filter-pill'}
+            onClick={() => setPeriod('month')}
+          >
+            This month
+          </button>
+        </div>
+
+        <div className="stats-grid">
+          <Stat label="Bookings" value={filtered.length} icon="▤" />
+          <Stat label="Recorded revenue" value={money(revenue)} icon="₹" />
+          <Stat label="Checked out" value={checkedOut} icon="✓" />
+          <Stat label="Your units" value={units.length} icon="▦" />
+        </div>
+
+        {!filtered.length && (
+          <Empty
+            title="No bookings in this period"
+            text="Bookings you record will appear in your statistics."
+          />
+        )}
+      </section>
+    </>
+  );
+}
+
 function CleanerSetup({user,onNotice}){const [id,setId]=useState(user.telegramCleanerId||''),[name,setName]=useState(user.telegramCleanerName||''),[busy,setBusy]=useState(false);async function save(){setBusy(true);try{const r=await api.patch('/auth/me',{telegramCleanerId:id,telegramCleanerName:name});onNotice('Cleaner details saved.');}catch(e){onNotice(e.response?.data?.message||'Could not save cleaner details.')}finally{setBusy(false)}}async function test(){setBusy(true);try{await api.patch('/auth/me',{telegramCleanerId:id,telegramCleanerName:name});const r=await api.post('/auth/test-cleaner');onNotice(r.data.message)}catch(e){onNotice(e.response?.data?.message||'Could not send test message. Ask your cleaner to start @kosmosstays_bot first.')}finally{setBusy(false)}}return <><div className="page-heading"><div><p className="eyebrow">OPERATIONS</p><h1>Cleaner setup</h1><p className="muted">Connect your cleaner in a few simple steps.</p></div></div><section className="section-card cleaner-card"><div className="cleaner-illustration">✦</div><h2>Connect your cleaner</h2><p className="muted">No API keys or technical setup needed.</p><div className="instruction-step"><span>1</span><div><b>Ask your cleaner to open @kosmosstays_bot</b><p>They should press Start. The bot will show their Telegram chat ID.</p><a className="text-button" href="https://t.me/kosmosstays_bot" target="_blank" rel="noreferrer">Open Kosmos Stays bot ↗</a></div></div><div className="instruction-step"><span>2</span><div><b>Enter the cleaner details below</b><p>Ask the cleaner to send you the number the bot displayed.</p></div></div><label>Cleaner name<input value={name} onChange={e=>setName(e.target.value)} placeholder="e.g. Rahul"/></label><label>Cleaner Telegram ID<input value={id} onChange={e=>setId(e.target.value)} placeholder="Numeric ID from the bot" inputMode="numeric"/></label><div className="form-actions"><button className="secondary-button" disabled={busy||!id.trim()} onClick={test}>Send test message</button><button className="primary-button" disabled={busy} onClick={save}>{busy?'Saving…':'Save cleaner'}</button></div><div className="setup-note"><b>How notifications work</b><p>When you mark a booking checked out, your cleaner receives the unit number and a Mark Unit Ready button. You can also mark the unit clean from the Units page. If cleaning takes more than 30 minutes, the system alerts the cleaner and admin when configured.</p></div></section></>}
 function ProfilePage({user,units=[],onUser,onPage}){
  const [form,setForm]=useState({name:user.name||'',phone:user.phone||'',businessName:user.businessName||'',telegramHostId:user.telegramHostId||''}),[msg,setMsg]=useState(''),[busy,setBusy]=useState(false);

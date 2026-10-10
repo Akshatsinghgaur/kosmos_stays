@@ -77,3 +77,92 @@ html[data-theme="dark"] .subscription-hero{background:linear-gradient(145deg,#12
 html[data-theme="dark"] .login-screen{background:var(--ks-bg)}
 html[data-theme="dark"] .login-art{background:#102333}
 @media(max-width:680px){.topbar{gap:10px}.brand-lockup{gap:8px;min-width:0}.brand-lockup img{width:42px;height:42px;flex:0 0 42px}.main-content{padding-left:15px;padding-right:15px}.section-card,.form-card{padding:18px}.welcome-row,.page-heading{gap:12px}.stats-grid{align-items:stretch}.stat-card{min-width:0}.bottom-nav{gap:4px}.nav-item{min-width:0}.brand-name{white-space:nowrap}}
+
+
+/* Kosmos Stays luxury ivory and champagne theme */
+:root{
+  --ks-bg:#F5F1E8;
+  --ks-card:#FFFFFF;
+  --ks-surface:#FAF8F3;
+  --ks-button:#292524;
+  --ks-sidebar:#171717;
+  --ks-text:#292524;
+  --ks-muted:#78716C;
+  --ks-line:#E7E1D7;
+  --ks-accent:#C6A875;
+  --ks-accent-hover:#B69A67;
+  --ks-selected:#F1E8D7;
+  accent-color:var(--ks-accent);
+  color-scheme:light;
+}
+body,.app-shell{background:var(--ks-bg);color:var(--ks-text)}
+.topbar,.section-card,.form-card,.stat-card,.login-card,.modal-card{background:var(--ks-card);border-color:var(--ks-line);color:var(--ks-text)}
+.topbar{border-bottom-color:var(--ks-line)}
+.brand-name,.welcome-row h1,.page-heading h1,.section-heading h2,.section-card h2,.stat-card strong,.booking-meta strong,.empty-state h3,.more-link,.more-copy b{color:var(--ks-text)}
+.brand-sub,.muted,.profile-copy small,.stat-card p,.booking-info>p,.booking-meta,.unit-row small,.more-copy small,.page-heading .muted{color:var(--ks-muted)}
+.avatar{background:var(--ks-selected);color:var(--ks-button)}
+.primary-button,.nav-add{background:var(--ks-button);color:#fff;border-color:var(--ks-button);box-shadow:0 5px 14px #29252412}
+.primary-button:hover{background:#171717}
+.whatsapp-button{background:var(--ks-accent);color:#171717;box-shadow:none}
+.whatsapp-button:hover{background:var(--ks-accent-hover)}
+.eyebrow,.text-button,.support-inline a,.subscription-price span,.empty-art{color:var(--ks-accent-hover)}
+.stat-icon,.form-section-title>span,.cleaner-illustration,.booking-symbol,.unit-icon,.more-icon,.offer-date,.instruction-step>span{background:var(--ks-selected);color:var(--ks-button)}
+.nav-item{color:var(--ks-muted)}
+.nav-item.selected{background:var(--ks-selected);color:var(--ks-button);border-color:var(--ks-selected)}
+.active-filter,.admin-console .admin-tabs .active-filter{background:var(--ks-button);color:#fff;border-color:var(--ks-button)}
+.bottom-nav{background:color-mix(in srgb,var(--ks-card) 96%,transparent);border-color:var(--ks-line)}
+.more-arrow{color:var(--ks-muted)}
+.admin-more .more-icon,.logout-more .more-icon{background:var(--ks-selected);color:var(--ks-button)}
+.theme-switch{background:var(--ks-line)}
+.theme-switch.on{background:var(--ks-accent)}
+.subscription-hero{background:var(--ks-surface);border-color:var(--ks-line)}
+.subscription-price strong,.offer-main strong{color:var(--ks-text)}
+.offer-claimed{color:var(--ks-muted)!important}
+.offer-form input:focus,.offer-form select:focus,.form-card input:focus,.form-card select:focus,.login-card input:focus,.add-unit-row input:focus,.search-input:focus{border-color:var(--ks-accent);box-shadow:0 0 0 3px #C6A87530;outline:none}
+.offer-actions select,.offer-form input,.offer-form select,.search-input{border-color:var(--ks-line);background:var(--ks-card);color:var(--ks-text)}
+.form-card input,.form-card select,.login-card input,.add-unit-row input{border-color:var(--ks-line);background:var(--ks-card);color:var(--ks-text)}
+.secondary-button,.filter-pill{background:var(--ks-card);color:var(--ks-text);border-color:var(--ks-line)}
+.status-pill,.unit-status,.status-pill.checked_out,.status-pill.cancelled,.status-pill.upcoming,.unit-status.cleaning,.unit-status.occupied{background:var(--ks-selected);color:var(--ks-button)}
+.checkout-button{border-color:var(--ks-line);background:var(--ks-selected);color:var(--ks-button)}
+.form-error,.notice,.setup-note{background:var(--ks-surface);border-color:var(--ks-line);color:var(--ks-text)}
+.form-error,.setup-note b,.setup-note p{color:var(--ks-text)}
+.instruction-step pre{color:var(--ks-text);border-color:var(--ks-line);background:var(--ks-surface)}
+.login-screen{background:var(--ks-bg)}
+.login-art{background:var(--ks-surface)}
+.login-art p{color:var(--ks-muted)}
+.admin-console .page-heading{background:var(--ks-sidebar)}
+.admin-console .page-heading h1,.admin-console .page-heading .muted,.admin-console .page-heading .eyebrow{color:#F5F1E8}
+.admin-console .admin-tabs{background:var(--ks-card);border-color:var(--ks-line)}
+.admin-console .admin-tabs .active-filter{background:var(--ks-button);color:#fff}
+/* Dark theme: obsidian, espresso and champagne */
+html[data-theme="dark"]{
+  --ks-bg:#0C0A09;
+  --ks-card:#171412;
+  --ks-surface:#1F1B18;
+  --ks-button:#C6A875;
+  --ks-sidebar:#090807;
+  --ks-text:#F5F1E8;
+  --ks-muted:#B0A79D;
+  --ks-line:#332D27;
+  --ks-accent:#C6A875;
+  --ks-accent-hover:#D4BB8D;
+  --ks-selected:#30271B;
+  color-scheme:dark;
+}
+html[data-theme="dark"] body,html[data-theme="dark"] .app-shell{background:var(--ks-bg);color:var(--ks-text)}
+html[data-theme="dark"] .topbar,html[data-theme="dark"] .section-card,html[data-theme="dark"] .form-card,html[data-theme="dark"] .stat-card,html[data-theme="dark"] .modal-card,html[data-theme="dark"] .login-card{background:var(--ks-card);border-color:var(--ks-line);color:var(--ks-text)}
+html[data-theme="dark"] .brand-name,html[data-theme="dark"] .welcome-row h1,html[data-theme="dark"] .page-heading h1,html[data-theme="dark"] .section-heading h2,html[data-theme="dark"] .section-card h2,html[data-theme="dark"] .stat-card strong,html[data-theme="dark"] .booking-meta strong,html[data-theme="dark"] .more-link,html[data-theme="dark"] .more-copy b,html[data-theme="dark"] .empty-state h3{color:var(--ks-text)}
+html[data-theme="dark"] .primary-button,html[data-theme="dark"] .nav-add{background:var(--ks-accent);color:#171412;border-color:var(--ks-accent)}
+html[data-theme="dark"] .primary-button:hover{background:var(--ks-accent-hover)}
+html[data-theme="dark"] .whatsapp-button{background:var(--ks-accent);color:#171412}
+html[data-theme="dark"] input,html[data-theme="dark"] select,html[data-theme="dark"] textarea,html[data-theme="dark"] .search-input,html[data-theme="dark"] .offer-actions select,html[data-theme="dark"] .form-card input,html[data-theme="dark"] .form-card select,html[data-theme="dark"] .login-card input,html[data-theme="dark"] .add-unit-row input{background:var(--ks-surface);color:var(--ks-text);border-color:var(--ks-line)}
+html[data-theme="dark"] .secondary-button,html[data-theme="dark"] .filter-pill{background:var(--ks-surface);color:var(--ks-text);border-color:var(--ks-line)}
+html[data-theme="dark"] .bottom-nav{background:#171412ed;border-color:var(--ks-line)}
+html[data-theme="dark"] .nav-item.selected{background:var(--ks-selected);color:var(--ks-accent-hover)}
+html[data-theme="dark"] .subscription-hero{background:var(--ks-surface);border-color:var(--ks-line)}
+html[data-theme="dark"] .login-screen{background:var(--ks-bg)}
+html[data-theme="dark"] .login-art{background:var(--ks-sidebar)}
+html[data-theme="dark"] .admin-console .page-heading{background:var(--ks-sidebar)}
+html[data-theme="dark"] .admin-console .admin-tabs{background:var(--ks-card);border-color:var(--ks-line)}
+html[data-theme="dark"] .admin-console .admin-tabs .active-filter{background:var(--ks-accent);color:#171412}
+html[data-theme="dark"] .status-pill,html[data-theme="dark"] .unit-status,html[data-theme="dark"] .status-pill.checked_out,html[data-theme="dark"] .status-pill.cancelled,html[data-theme="dark"] .status-pill.upcoming,html[data-theme="dark"] .unit-status.cleaning,html[data-theme="dark"] .unit-status.occupied{background:var(--ks-selected);color:var(--ks-accent-hover)}

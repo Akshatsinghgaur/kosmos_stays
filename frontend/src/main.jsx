@@ -61,7 +61,7 @@ function App() {
 
   return <div className="app-shell">
     <header className="topbar">
-      <div className="brand-lockup"><img src="/kosmos-logo.webp" alt="Kosmos Stays logo"/><div><div className="brand-name">KOSMOS <span>STAYS</span></div><div className="brand-sub">Your stays, beautifully organised</div></div></div>
+      <div className="brand-lockup"><img src="/kosmos-logo.png" alt="Kosmos Stays logo"/><div><div className="brand-name">KOSMOS <span>STAYS</span></div><div className="brand-sub">Your stays, beautifully organised</div></div></div>
       <div className="profile-area"><button className="avatar avatar-button" onClick={() => setPage('more')} aria-label="Open More menu">{(user.name || 'K').slice(0,1).toUpperCase()}</button><button className="profile-copy profile-open" onClick={() => setPage('more')}><b>{user.name}</b><small>{user.role === 'admin' ? 'Administrator' : 'Host profile'}</small></button></div>
     </header>
     {notice && <div className="notice" role="status">{notice}<button onClick={() => setNotice('')}>×</button></div>}
@@ -112,7 +112,7 @@ function Login({ onLogin }) {
     finally { setBusy(false); }
   }
   const title = mode === 'login' ? 'Welcome back' : mode === 'register' ? 'Create your account' : mode === 'forgot' ? 'Reset your password' : 'Choose a new password';
-  return <div className="login-screen"><div className="login-art"><img src="/kosmos-logo.webp" alt="Kosmos Stays"/><p>Thoughtful stays. Seamless records.</p></div><form className="login-card" onSubmit={go}><p className="eyebrow">KOSMOS STAYS</p><h1>{title}</h1><p className="muted">{mode === 'forgot' ? 'We’ll send reset instructions if the account exists.' : mode === 'reset' ? 'Enter the reset code from your email and a new password.' : 'Your simple, beautiful booking register.'}</p>
+  return <div className="login-screen"><div className="login-art"><img src="/kosmos-logo.png" alt="Kosmos Stays"/><p>Thoughtful stays. Seamless records.</p></div><form className="login-card" onSubmit={go}><p className="eyebrow">KOSMOS STAYS</p><h1>{title}</h1><p className="muted">{mode === 'forgot' ? 'We’ll send reset instructions if the account exists.' : mode === 'reset' ? 'Enter the reset code from your email and a new password.' : 'Your simple, beautiful booking register.'}</p>
     {mode === 'register' && <label>Full name<input required autoComplete="name" placeholder="Your name" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })}/></label>}
     <label>Email address<input required type="email" autoComplete="email" placeholder="you@example.com" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })}/></label>
     {mode === 'reset' && <label>Reset code<input required autoComplete="one-time-code" placeholder="Paste reset code" value={form.token} onChange={e => setForm({ ...form, token: e.target.value })}/></label>}

@@ -166,3 +166,136 @@ html[data-theme="dark"] .admin-console .page-heading{background:var(--ks-sidebar
 html[data-theme="dark"] .admin-console .admin-tabs{background:var(--ks-card);border-color:var(--ks-line)}
 html[data-theme="dark"] .admin-console .admin-tabs .active-filter{background:var(--ks-accent);color:#171412}
 html[data-theme="dark"] .status-pill,html[data-theme="dark"] .unit-status,html[data-theme="dark"] .status-pill.checked_out,html[data-theme="dark"] .status-pill.cancelled,html[data-theme="dark"] .status-pill.upcoming,html[data-theme="dark"] .unit-status.cleaning,html[data-theme="dark"] .unit-status.occupied{background:var(--ks-selected);color:var(--ks-accent-hover)}
+
+
+/* Kosmos Stays — minimal monochrome system inspired by the supplied UI reference.
+   Light mode: clean white/soft gray/black. Dark mode base: #101010. */
+:root {
+  --ks-bg: #F7F7F7;
+  --ks-card: #FFFFFF;
+  --ks-surface: #F2F2F2;
+  --ks-button: #111111;
+  --ks-sidebar: #111111;
+  --ks-text: #171717;
+  --ks-muted: #737373;
+  --ks-line: #E5E5E5;
+  --ks-accent: #111111;
+  --ks-accent-hover: #333333;
+  --ks-selected: #EEEEEE;
+  accent-color: #111111;
+  color-scheme: light;
+}
+html, body, .app-shell { background: var(--ks-bg); color: var(--ks-text); }
+.topbar, .section-card, .form-card, .stat-card, .login-card, .modal-card {
+  background: var(--ks-card); border-color: var(--ks-line); color: var(--ks-text);
+  box-shadow: none;
+}
+.brand-name, .welcome-row h1, .page-heading h1, .section-heading h2, .section-card h2,
+.stat-card strong, .booking-meta strong, .empty-state h3, .more-link, .more-copy b { color: var(--ks-text); }
+.brand-sub, .muted, .profile-copy small, .stat-card p, .booking-info>p, .booking-meta,
+.unit-row small, .more-copy small, .page-heading .muted { color: var(--ks-muted); }
+.avatar, .stat-icon, .form-section-title>span, .cleaner-illustration, .booking-symbol,
+.unit-icon, .more-icon, .offer-date, .instruction-step>span { background: var(--ks-surface); color: var(--ks-text); }
+.primary-button, .nav-add, .whatsapp-button { background: #111111; color: #FFFFFF; border-color: #111111; box-shadow: none; }
+.primary-button:hover, .whatsapp-button:hover { background: #333333; }
+.eyebrow, .text-button, .support-inline a, .subscription-price span, .empty-art { color: #404040; }
+.nav-item { color: #737373; }
+.nav-item.selected, .active-filter, .admin-console .admin-tabs .active-filter {
+  background: #111111; color: #FFFFFF; border-color: #111111;
+}
+.bottom-nav { background: rgba(255,255,255,.96); border-color: var(--ks-line); box-shadow: none; }
+.subscription-hero { background: #F2F2F2; border-color: var(--ks-line); }
+.offer-claimed { color: var(--ks-muted) !important; }
+.offer-form input:focus, .offer-form select:focus, .form-card input:focus, .form-card select:focus,
+.login-card input:focus, .add-unit-row input:focus, .search-input:focus {
+  border-color: #555555; box-shadow: 0 0 0 3px rgba(0,0,0,.07); outline: none;
+}
+.offer-actions select, .offer-form input, .offer-form select, .search-input,
+.form-card input, .form-card select, .login-card input, .add-unit-row input,
+.secondary-button, .filter-pill { border-color: var(--ks-line); background: var(--ks-card); color: var(--ks-text); }
+.status-pill, .unit-status, .status-pill.checked_out, .status-pill.cancelled, .status-pill.upcoming,
+.unit-status.cleaning, .unit-status.occupied, .checkout-button {
+  background: #EEEEEE; color: #333333; border-color: #DDDDDD;
+}
+.form-error, .notice, .setup-note { background: #F2F2F2; border-color: #DDDDDD; color: #333333; }
+.form-error, .setup-note b, .setup-note p { color: #333333; }
+.instruction-step pre { color: #333333; border-color: var(--ks-line); background: #F2F2F2; }
+.login-screen { background: #FFFFFF; }
+.login-art { background: #F5F5F5; }
+.login-art p { color: var(--ks-muted); }
+.admin-console .page-heading { background: #111111; }
+.admin-console .page-heading h1, .admin-console .page-heading .muted,
+.admin-console .page-heading .eyebrow { color: #FFFFFF; }
+.admin-console .admin-tabs { background: var(--ks-card); border-color: var(--ks-line); }
+.admin-console .admin-tabs .active-filter { background: #111111; color: #FFFFFF; }
+.theme-switch.on { background: #111111; }
+
+html[data-theme="dark"] {
+  --ks-bg: #101010;
+  --ks-card: #181818;
+  --ks-surface: #202020;
+  --ks-button: #F5F5F5;
+  --ks-sidebar: #0A0A0A;
+  --ks-text: #F5F5F5;
+  --ks-muted: #A3A3A3;
+  --ks-line: #303030;
+  --ks-accent: #F5F5F5;
+  --ks-accent-hover: #D4D4D4;
+  --ks-selected: #292929;
+  accent-color: #F5F5F5;
+  color-scheme: dark;
+}
+html[data-theme="dark"], html[data-theme="dark"] body, html[data-theme="dark"] .app-shell { background: #101010; color: var(--ks-text); }
+html[data-theme="dark"] .topbar, html[data-theme="dark"] .section-card,
+html[data-theme="dark"] .form-card, html[data-theme="dark"] .stat-card,
+html[data-theme="dark"] .modal-card, html[data-theme="dark"] .login-card {
+  background: #181818; border-color: #303030; color: #F5F5F5; box-shadow: none;
+}
+html[data-theme="dark"] .brand-name, html[data-theme="dark"] .welcome-row h1,
+html[data-theme="dark"] .page-heading h1, html[data-theme="dark"] .section-heading h2,
+html[data-theme="dark"] .section-card h2, html[data-theme="dark"] .stat-card strong,
+html[data-theme="dark"] .booking-meta strong, html[data-theme="dark"] .more-link,
+html[data-theme="dark"] .more-copy b, html[data-theme="dark"] .empty-state h3 { color: #F5F5F5; }
+html[data-theme="dark"] .brand-sub, html[data-theme="dark"] .muted,
+html[data-theme="dark"] .profile-copy small, html[data-theme="dark"] .stat-card p,
+html[data-theme="dark"] .booking-info>p, html[data-theme="dark"] .booking-meta,
+html[data-theme="dark"] .unit-row small, html[data-theme="dark"] .more-copy small { color: #A3A3A3; }
+html[data-theme="dark"] .primary-button, html[data-theme="dark"] .nav-add,
+html[data-theme="dark"] .whatsapp-button { background: #F5F5F5; color: #101010; border-color: #F5F5F5; box-shadow: none; }
+html[data-theme="dark"] .primary-button:hover, html[data-theme="dark"] .whatsapp-button:hover { background: #D4D4D4; }
+html[data-theme="dark"] .nav-item { color: #A3A3A3; }
+html[data-theme="dark"] .nav-item.selected, html[data-theme="dark"] .active-filter,
+html[data-theme="dark"] .admin-console .admin-tabs .active-filter { background: #F5F5F5; color: #101010; border-color: #F5F5F5; }
+html[data-theme="dark"] .bottom-nav { background: rgba(24,24,24,.97); border-color: #303030; }
+html[data-theme="dark"] input, html[data-theme="dark"] select, html[data-theme="dark"] textarea,
+html[data-theme="dark"] .search-input, html[data-theme="dark"] .offer-actions select,
+html[data-theme="dark"] .form-card input, html[data-theme="dark"] .form-card select,
+html[data-theme="dark"] .login-card input, html[data-theme="dark"] .add-unit-row input,
+html[data-theme="dark"] .secondary-button, html[data-theme="dark"] .filter-pill {
+  background: #202020; color: #F5F5F5; border-color: #383838;
+}
+html[data-theme="dark"] .stat-icon, html[data-theme="dark"] .form-section-title>span,
+html[data-theme="dark"] .cleaner-illustration, html[data-theme="dark"] .booking-symbol,
+html[data-theme="dark"] .unit-icon, html[data-theme="dark"] .more-icon,
+html[data-theme="dark"] .offer-date, html[data-theme="dark"] .instruction-step>span,
+html[data-theme="dark"] .avatar { background: #292929; color: #F5F5F5; }
+html[data-theme="dark"] .status-pill, html[data-theme="dark"] .unit-status,
+html[data-theme="dark"] .status-pill.checked_out, html[data-theme="dark"] .status-pill.cancelled,
+html[data-theme="dark"] .status-pill.upcoming, html[data-theme="dark"] .unit-status.cleaning,
+html[data-theme="dark"] .unit-status.occupied, html[data-theme="dark"] .checkout-button {
+  background: #292929; color: #E5E5E5; border-color: #3A3A3A;
+}
+html[data-theme="dark"] .form-error, html[data-theme="dark"] .notice,
+html[data-theme="dark"] .setup-note, html[data-theme="dark"] .instruction-step pre,
+html[data-theme="dark"] .subscription-hero { background: #202020; border-color: #383838; color: #E5E5E5; }
+html[data-theme="dark"] .form-error, html[data-theme="dark"] .setup-note b,
+html[data-theme="dark"] .setup-note p, html[data-theme="dark"] .instruction-step pre { color: #E5E5E5; }
+html[data-theme="dark"] .login-screen { background: #101010; }
+html[data-theme="dark"] .login-art { background: #101010; }
+html[data-theme="dark"] .login-art p { color: #A3A3A3; }
+html[data-theme="dark"] .admin-console .page-heading { background: #0A0A0A; }
+html[data-theme="dark"] .admin-console .page-heading h1,
+html[data-theme="dark"] .admin-console .page-heading .muted,
+html[data-theme="dark"] .admin-console .page-heading .eyebrow { color: #F5F5F5; }
+html[data-theme="dark"] .admin-console .admin-tabs { background: #181818; border-color: #303030; }
+html[data-theme="dark"] .theme-switch.on { background: #F5F5F5; }

@@ -299,3 +299,6 @@ html[data-theme="dark"] .admin-console .page-heading .muted,
 html[data-theme="dark"] .admin-console .page-heading .eyebrow { color: #F5F5F5; }
 html[data-theme="dark"] .admin-console .admin-tabs { background: #181818; border-color: #303030; }
 html[data-theme="dark"] .theme-switch.on { background: #F5F5F5; }
+/* Dashboard register refresh controls */
+.section-heading-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+@media(max-width:680px){.section-heading-actions{gap:4px}.section-heading-actions .quiet-button,.section-heading-actions .text-button{padding:8px 6px;font-size:11px}}

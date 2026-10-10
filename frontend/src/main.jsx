@@ -34,7 +34,15 @@ function App() {
       setNotice(e.response?.data?.message || 'Could not load records. Please refresh.');
     } finally { setLoading(false); }
   }
-  useEffect(() => { refresh(); }, [user]);
+  useEffect(() => {
+    if (!user) return;
+    refresh();
+    // Keep the register and totals in sync with bookings added in another tab/device.
+    const timer = window.setInterval(() => refresh(), 15000);
+    const onFocus = () => refresh();
+    window.addEventListener('focus', onFocus);
+    return () => { window.clearInterval(timer); window.removeEventListener('focus', onFocus); };
+  }, [user]);
   useEffect(() => { const go = e => setPage(e.detail); window.addEventListener('kosmos:navigate', go); return () => window.removeEventListener('kosmos:navigate', go); }, []);
 
   function login(nextUser, token) {
@@ -50,8 +58,9 @@ function App() {
 
   const todayKey = new Date().toDateString();
   const todayBookings = bookings.filter(b => new Date(b.checkIn).toDateString() === todayKey && b.status !== 'cancelled');
+  const visibleBookings = bookings.filter(b => b.status !== 'cancelled').slice(0, 5);
   const activeBookings = bookings.filter(b => b.status === 'active');
-  const revenueToday = todayBookings.reduce((sum, b) => sum + Number(b.amount || 0), 0);
+  const totalRevenue = bookings.filter(b => b.status !== 'cancelled').reduce((sum, b) => sum + Number(b.amount || 0), 0);
   const nav = [
     { id: 'home', label: 'Home', icon: '⌂' },
     { id: 'bookings', label: 'Bookings', icon: '▦' },
@@ -68,13 +77,13 @@ function App() {
     <main className={`main-content ${page === 'admin' ? 'admin-console' : ''}`}>
       {page === 'home' && <>
         <div className="welcome-row"><div><p className="eyebrow">YOUR DASHBOARD</p><h1>Good to see you, {user.name?.split(' ')[0] || 'there'}.</h1><p className="muted">Here’s how your stays are looking today.</p></div><button className="primary-button" onClick={() => setPage('new')}><span className="plus-icon">＋</span> Add booking</button></div>
-        <div className="stats-grid"><Stat label="Today's check-ins" value={todayBookings.length} icon="↘"/><Stat label="Currently checked in" value={activeBookings.length} icon="⌂"/><Stat label="Today's booking value" value={money(revenueToday)} icon="₹"/><Stat label="Your units" value={units.length} icon="▦"/></div>
-        <section className="section-card"><div className="section-heading"><div><h2>Today's register</h2><p className="muted">Bookings arriving today</p></div><button className="text-button" onClick={() => setPage('bookings')}>View all →</button></div>
-          {loading ? <div className="empty-state">Loading your register…</div> : todayBookings.length ? todayBookings.map(b => <BookingCard key={b._id} booking={b} onCheckout={async id => { try { await api.post(`/bookings/${id}/checkout`); setNotice('Checkout recorded. Unit marked for cleaning.'); refresh(); } catch (e) { setNotice(e.response?.data?.message || 'Could not record checkout.'); } }} />) : <Empty title="A clear day starts here" text="When a guest checks in, add their booking and it will appear in your register." action="Add booking" onAction={() => setPage('new')} />}
+        <div className="stats-grid"><Stat label="Total bookings" value={bookings.filter(b => b.status !== 'cancelled').length} icon="▤"/><Stat label="Currently checked in" value={activeBookings.length} icon="⌂"/><Stat label="Total recorded amount" value={money(totalRevenue)} icon="₹"/><Stat label="Your units" value={units.length} icon="▦"/></div>
+        <section className="section-card"><div className="section-heading"><div><h2>Recent register</h2><p className="muted">Latest bookings across your register</p></div><div className="section-heading-actions"><button className="quiet-button" disabled={loading} onClick={refresh}>{loading ? 'Refreshing…' : '↻ Refresh'}</button><button className="text-button" onClick={() => setPage('bookings')}>View all →</button></div></div>
+          {loading && !bookings.length ? <div className="empty-state">Loading your register…</div> : visibleBookings.length ? visibleBookings.map(b => <BookingCard key={b._id} booking={b} onCheckout={async id => { try { await api.post(`/bookings/${id}/checkout`); await refresh(); setNotice('Checkout recorded. Unit marked for cleaning.'); } catch (e) { setNotice(e.response?.data?.message || 'Could not record checkout.'); } }} />) : <Empty title="Your register is empty" text="When a guest checks in, add their booking and it will appear here." action="Add booking" onAction={() => setPage('new')} />}
         </section>
       </>}
       {page === 'bookings' && <BookingsPage bookings={bookings} onNew={() => setPage('new')} onCheckout={async id => { try { await api.post(`/bookings/${id}/checkout`); setNotice('Checkout recorded. Unit marked for cleaning.'); refresh(); } catch (e) { setNotice(e.response?.data?.message || 'Could not record checkout.'); } }} />}
-      {page === 'new' && <NewBooking units={units} onCancel={() => setPage('bookings')} onDone={() => { setPage('bookings'); setNotice('Booking added successfully.'); refresh(); }} />}
+      {page === 'new' && <NewBooking units={units} onCancel={() => setPage('bookings')} onDone={async () => { await refresh(); setPage('bookings'); setNotice('Booking added successfully. Register and amounts updated.'); }} />}
       {page === 'units' && <UnitsPage units={units} refresh={refresh} />}
       {page === 'offers' && <OffersPage user={user} onNotice={setNotice} />}
       {page === 'more' && <MorePage user={user} dark={dark} setDark={setDark} onPage={setPage} logout={logout} />}

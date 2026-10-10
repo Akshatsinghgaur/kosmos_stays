@@ -10,6 +10,7 @@ const unitRoutes = require('./routes/units');
 const bookingRoutes = require('./routes/bookings');
 const adminRoutes = require('./routes/admin');
 const statsRoutes = require('./routes/stats');
+const offerRoutes = require('./routes/offers');
 const telegram = require('./telegram');
 const app = express();
 app.disable('x-powered-by');
@@ -29,6 +30,7 @@ app.use('/api/units', unitRoutes);
 app.use('/api/bookings', bookingRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/stats', statsRoutes);
+app.use('/api/offers', offerRoutes);
 app.use((err, req, res, next) => {
   if (err.message === 'Origin is not allowed by CORS') return res.status(403).json({ message: 'This website is not allowed to access the API.' });
   if (err instanceof SyntaxError && err.status === 400 && 'body' in err) return res.status(400).json({ message: 'Invalid request body.' });

@@ -1,0 +1,2 @@
+const mongoose=require('mongoose');
+module.exports=mongoose.model('BookingOffer',new mongoose.Schema({date:{type:Date,required:true},time:{type:String,required:true,trim:true},price:{type:Number,required:true,min:0},status:{type:String,enum:['open','accepted','cancelled'],default:'open',index:true},acceptedBy:{type:mongoose.Schema.Types.ObjectId,ref:'User',default:null},acceptedAt:{type:Date,default:null},createdBy:{type:mongoose.Schema.Types.ObjectId,ref:'User',required:true},updatedBy:{type:mongoose.Schema.Types.ObjectId,ref:'User',default:null}},{timestamps:true}));
